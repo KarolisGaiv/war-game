@@ -16,14 +16,18 @@ class Player:
         self._card_deck = card_deck
 
     def draw_card(self, card_deck, n=0):
-        if n > len(card_deck):
-            raise ValueError("No more cards to play.")
-        self.card_deck = card_deck
-        return card_deck[n]
+        try:
+            self.card_deck = card_deck
+            return card_deck[n]
+        except IndexError:
+            print("No more cards to play")
 
     def remove_card_from_deck(self, card_deck):
-        self.card_deck = card_deck
-        card_deck.pop(0)
+        try:
+            self.card_deck = card_deck
+            card_deck.pop(0)
+        except IndexError:
+            pass
 
     def take_cards(self, card_deck, cards_to_take):
         self.card_deck = card_deck
@@ -139,7 +143,7 @@ def main():
     table_cards = []
     # print("Player deck", player_deck)
     while True:
-        
+        print(f"Player deck: {len(player_deck)}. Computer deck: {len(computer_deck)}")
         if len(player_deck) != 0 or len(computer_deck) != 0:
             if winner == "Player":
                 for card in table_cards:
