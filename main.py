@@ -4,22 +4,24 @@
 """
 Computer and user have the same class == Player
 
-
 class Player:
 ATTRIBUTE:
         ******* have to have getters and setters ******
     - stores its own deck which is provided by ???
         
 METHOD:
-    1. draws random card
-    - if declared as winner - add both cards to the end of stack list
-    - if declared as loser - take out card from deck list attribute
-    - if declared draw - draw two cards, second drawn card is shown
+    1. draw random card
+        1.1. populate global variable called maybe TABLE?????
+        1.2. take out card from deck list 
     
     
+        if declared winner
+    2. take cards
+        2.1 take cards from global variable TABLE and append to card deck list
     
-   
-   
+        if declared draw???
+    3. 
+    
    
    
    
@@ -39,7 +41,7 @@ METHOD:
 
 
 
-
+# how to code which card beats which?
 
 
 
