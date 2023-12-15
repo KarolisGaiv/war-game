@@ -15,9 +15,11 @@ class Player:
     def card_deck(self, card_deck):
         self._card_deck = card_deck
 
-    def draw_card(self, card_deck):
+    def draw_card(self, card_deck, n=0):
+        if n > len(card_deck):
+            raise ValueError("No more cards to play.")
         self.card_deck = card_deck
-        return card_deck[0]
+        return card_deck[n]
 
     def remove_card_from_deck(self, card_deck):
         self.card_deck = card_deck
@@ -31,17 +33,16 @@ class Player:
 
 class Referee:
     counter = 0
-    
+
     def __init__(self, card_deck):
         self.card_deck = card_deck
-     
-    
+
     def shuffle(self):
         deck = self.card_deck
         card_list = []
         for i in deck:
             card_list.append(list(i.keys()))
-            
+
         random.shuffle(card_list)
         mixed_card_deck = []
 
@@ -49,7 +50,7 @@ class Referee:
             for card in deck:
                 if list(card.keys()) == shuffeled_card:
                     mixed_card_deck.append(card)
-                    
+
         return mixed_card_deck
 
     def split_deck(self, mixed_card_deck):
@@ -70,101 +71,120 @@ class Referee:
         else:
             return "Draw"
 
-            
-        
-
-
 
 def main():
     card_deck = [
-            {"As": 14},
-            {"Ah": 14},
-            {"Ac": 14},
-            {"Ad": 14},
-            {"Ks": 13},
-            {"Kh": 13},
-            {"Kc": 13},
-            {"Kd": 13},
-            {"Qs": 12},
-            {"Qh": 12},
-            {"Qc": 12},
-            {"Qd": 12},
-            {"Js": 11},
-            {"Jh": 11},
-            {"Jc": 11},
-            {"Jd": 11},
-            {"10s": 10},
-            {"10h": 10},
-            {"10c": 10},
-            {"10d": 10},
-            {"9s": 9},
-            {"9h": 9},
-            {"9c": 9},
-            {"9d": 9},
-            {"8s": 8},
-            {"8h": 8},
-            {"8c": 8},
-            {"8d": 8},
-            {"7s": 7},
-            {"7h": 7},
-            {"7c": 7},
-            {"7d": 7},
-            {"6s": 6},
-            {"6h": 6},
-            {"6c": 6},
-            {"6d": 6},
-            {"5s": 5},
-            {"5h": 5},
-            {"5c": 5},
-            {"5d": 5},
-            {"4s": 4},
-            {"4h": 4},
-            {"4c": 4},
-            {"4d": 4},
-            {"3s": 3},
-            {"3h": 3},
-            {"3c": 3},
-            {"3d": 3},
-            {"2s": 2},
-            {"2h": 2},
-            {"2c": 2},
-            {"2d": 2},
-        ]
-    
-    test = Referee(card_deck)
+        {"As": 14},
+        {"Ah": 14},
+        {"Ac": 14},
+        {"Ad": 14},
+        {"Ks": 13},
+        {"Kh": 13},
+        {"Kc": 13},
+        {"Kd": 13},
+        {"Qs": 12},
+        {"Qh": 12},
+        {"Qc": 12},
+        {"Qd": 12},
+        {"Js": 11},
+        {"Jh": 11},
+        {"Jc": 11},
+        {"Jd": 11},
+        {"10s": 10},
+        {"10h": 10},
+        {"10c": 10},
+        {"10d": 10},
+        {"9s": 9},
+        {"9h": 9},
+        {"9c": 9},
+        {"9d": 9},
+        {"8s": 8},
+        {"8h": 8},
+        {"8c": 8},
+        {"8d": 8},
+        {"7s": 7},
+        {"7h": 7},
+        {"7c": 7},
+        {"7d": 7},
+        {"6s": 6},
+        {"6h": 6},
+        {"6c": 6},
+        {"6d": 6},
+        {"5s": 5},
+        {"5h": 5},
+        {"5c": 5},
+        {"5d": 5},
+        {"4s": 4},
+        {"4h": 4},
+        {"4c": 4},
+        {"4d": 4},
+        {"3s": 3},
+        {"3h": 3},
+        {"3c": 3},
+        {"3d": 3},
+        {"2s": 2},
+        {"2h": 2},
+        {"2c": 2},
+        {"2d": 2},
+    ]
+
+    referee = Referee(card_deck)
     # print(test.card_deck)
-    deck = test.shuffle()
-    player_deck, computer_deck = test.split_deck(deck)
+    deck = referee.shuffle()
+    player_deck, computer_deck = referee.split_deck(deck)
 
     player = Player("player", player_deck)
     computer = Player("computer", computer_deck)
-
+    winner = ""
+    table_cards = []
     # print("Player deck", player_deck)
+    while True:
+        
+        if len(player_deck) != 0 or len(computer_deck) != 0:
+            if winner == "Player":
+                for card in table_cards:
+                    player.take_cards(player_deck, card)
+                table_cards = []
+                winner = ""
+            elif winner == "Computer":
+                for card in table_cards:
+                    computer.take_cards(computer_deck, card)
+                table_cards = []
+                winner = ""
+            elif winner == "Draw":
+                player_card = player.draw_card(player_deck, 1)
+                player.remove_card_from_deck(player_deck)
+                computer_card = computer.draw_card(computer_deck, 1)
+                computer.remove_card_from_deck(computer_deck)
 
-    player_card = player.draw_card(player_deck)
-    player.remove_card_from_deck(player_deck)
-    computer_card = computer.draw_card(computer_deck)
-    computer.remove_card_from_deck(computer_deck)
-    # print("Player deck after", player_deck)
+                table_cards.append(player_card)
+                table_cards.append(computer_card)
+                winner = ""
 
-    print(player_card)
-    print(computer_card)
+            else:
+                player_card = player.draw_card(player_deck)
+                player.remove_card_from_deck(player_deck)
+                computer_card = computer.draw_card(computer_deck)
+                computer.remove_card_from_deck(computer_deck)
+                # print("Player deck after", player_deck)
 
-    winner = test.declare_winner(player_card, computer_card)
-    print(winner)
+                # print(player_card)
+                # print(computer_card)
 
-    table_cards = [] 
-    table_cards.append(player_card)
-    table_cards.append(computer_card)
-    print(table_cards)
+                winner = referee.declare_winner(player_card, computer_card)
+                print(winner)
 
-    if winner == "Player":
-        player.take_cards(player_deck, )
+                table_cards.append(player_card)
+                table_cards.append(computer_card)
+                # print(table_cards)
 
-
-
-    
-    
+            # print(player_deck)
+        elif len(player_deck) == 0:
+            print("Computer won the war")
+            break
+        elif len(computer_deck) == 0:
+            print("Player won the war")
+            break
 
 
 main()
