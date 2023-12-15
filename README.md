@@ -1,4 +1,4 @@
-#war game
+# war game
 
 Requirements:
 - Shuffle card deck randomly
