@@ -41,21 +41,18 @@ class Referee:
         card_list = []
         for i in deck:
             card_list.append(list(i.keys()))
-        
-        print("TESTST")
-        print(card_list)
             
-        
-        
-            
-        
-        
-        
-        
-        
+        random.shuffle(card_list)
+        mixed_card_deck = []
 
+        for shuffeled_card in card_list:
+            for card in deck:
+                if list(card.keys()) == shuffeled_card:
+                    mixed_card_deck.append(card)
+                    
+        return mixed_card_deck
+            
         
-    
 
 
 
@@ -116,7 +113,7 @@ def main():
         ]
     
     test = Referee(card_deck)
-    print(test.card_deck)
+    # print(test.card_deck)
     test.shuffle()
     
     
