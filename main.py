@@ -17,7 +17,7 @@ class Player:
 
     def draw_card(self, card_deck):
         self.card_deck = card_deck
-        return random.choice(card_deck)
+        return card_deck[0]
 
     def remove_card_from_deck(self, card_deck):
         self.card_deck = card_deck
@@ -56,8 +56,19 @@ class Referee:
         self.mixed_card_deck = mixed_card_deck
         deck1 = mixed_card_deck[0:26]
         deck2 = mixed_card_deck[26:]
-        
+
         return deck1, deck2
+
+    def declare_winner(self, card_player, card_computer):
+        self.card_player = card_player
+        self.card_computer = card_computer
+
+        if list(card_player.values()) > list(card_computer.values()):
+            return "Player"
+        elif list(card_player.values()) < list(card_computer.values()):
+            return "Computer"
+        else:
+            return "Draw"
 
             
         
@@ -123,7 +134,35 @@ def main():
     test = Referee(card_deck)
     # print(test.card_deck)
     deck = test.shuffle()
-    test.split_deck(deck)
+    player_deck, computer_deck = test.split_deck(deck)
+
+    player = Player("player", player_deck)
+    computer = Player("computer", computer_deck)
+
+    # print("Player deck", player_deck)
+
+    player_card = player.draw_card(player_deck)
+    player.remove_card_from_deck(player_deck)
+    computer_card = computer.draw_card(computer_deck)
+    computer.remove_card_from_deck(computer_deck)
+    # print("Player deck after", player_deck)
+
+    print(player_card)
+    print(computer_card)
+
+    winner = test.declare_winner(player_card, computer_card)
+    print(winner)
+
+    table_cards = [] 
+    table_cards.append(player_card)
+    table_cards.append(computer_card)
+    print(table_cards)
+
+    if winner == "Player":
+        player.take_cards(player_deck, )
+
+
+
     
     
 
