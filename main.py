@@ -51,6 +51,14 @@ class Referee:
                     mixed_card_deck.append(card)
                     
         return mixed_card_deck
+
+    def split_deck(self, mixed_card_deck):
+        self.mixed_card_deck = mixed_card_deck
+        deck1 = mixed_card_deck[0:26]
+        deck2 = mixed_card_deck[26:]
+        
+        return deck1, deck2
+
             
         
 
@@ -114,7 +122,8 @@ def main():
     
     test = Referee(card_deck)
     # print(test.card_deck)
-    test.shuffle()
+    deck = test.shuffle()
+    test.split_deck(deck)
     
     
 
